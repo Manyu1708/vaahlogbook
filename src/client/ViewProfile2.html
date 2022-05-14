@@ -1,0 +1,153 @@
+<html>
+    <head>
+    <!-- <link rel="stylesheet" href="../styles/styles.css">-->
+         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script  src = "../client/scripts.js"></script>
+</head>
+        <body>
+			<div class="container-fluid" id="DIV">
+	<div class="row">
+		<div>
+		</div>
+		<div id="MyDiv" class="atco-form col-md-9 mx-auto">
+			
+			<div id ="myBasicProfile" class="mx-auto">
+				
+				<div class="form-floating mb-2 mt-2 col-md-3 form-check-inline">
+					<input type="text" class="form-control" id="text1" name="Emp_name" maxlength="100" placeholder="Employee Name" disabled="">
+					<label for="floatingInput"><i class="bi bi-person-circle"></i> Employee Name</label>
+				</div>
+				<div class="form-floating mb-2 col-md-3 form-check-inline">
+					<input type="text" class="form-control" id="empID" name="Emp_Id" maxlength="10" placeholder="ATCOL Number"  disabled="">
+					<label><i class="bi bi-person-badge"></i> Employee ID</label>
+				</div>
+				<div class="form-floating mb-2 col-md-3 form-check-inline">
+					<input type="text" class="form-control" id="text4" name="ATCOL_No" maxlength="10" placeholder="ATCOL Number"  disabled="">
+					<label><i class="bi bi-card-checklist"></i> ATCOL Number</label>
+				</div>
+				</div>
+				<div id ="myCareerProfile" class="mx-auto">
+				<nav>
+					  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+						<button class="nav-link active" id="medical-details-tab" data-bs-toggle="tab" data-bs-target="#medical-details" type="button" role="tab" aria-controls="medical-details" aria-selected="true" onclick="iframex('view-med');">Medical</button>
+						<button class="nav-link" id="aelp-details-tab" data-bs-toggle="tab" data-bs-target="#aelp-details" type="button" role="tab" aria-controls="aelp-details" aria-selected="false" onclick="iframex('view-aelp');">AELP</button>
+						<button class="nav-link" id="ratings-details-tab" data-bs-toggle="tab" data-bs-target="#ratings-details" type="button" role="tab" aria-controls="ratings-details" aria-selected="false" onclick="iframex('view-rating');">Ratings/Endorsements</button>
+						<button class="nav-link" id="training-details-tab" data-bs-toggle="tab" data-bs-target="#training-details" type="button" role="tab" aria-controls="training-details" aria-selected="false" onclick="iframex('view-art');">Training Details</button>
+						<button class="nav-link" id="other-training-details-tab" data-bs-toggle="tab" data-bs-target="#other-training-details" type="button" role="tab" aria-controls="other-training-details" aria-selected="false" onclick="iframex('view-otd');">Other Training Details</button>
+					  </div>
+				</nav>
+				<div class="tab-content" id="nav-tabContent">
+					  <div class="tab-pane fade show active" id="medical-details" role="tabpanel" aria-labelledby="medical-details-tab">
+					  <iframe id="if-medical-details" class="container" style = "height:90%; display: none;" scrolling="yes"></iframe> 
+					  </div>
+					  <div class="tab-pane fade" id="aelp-details" role="tabpanel" aria-labelledby="aelp-details-tab">
+					  <iframe id="if-aelp-details" class="container" style = "height:90%; display: none;" scrolling="yes"> </iframe>
+					  </div>
+					  <div class="tab-pane fade" id="ratings-details" role="tabpanel" aria-labelledby="ratings-details-tab">
+					  <iframe id="if-ratings-details" class="container" style = "height:90%; display: none;" scrolling="yes"> </iframe>
+					  </div>
+					  <div class="tab-pane fade" id="training-details" role="tabpanel" aria-labelledby="training-details-tab">
+					  <iframe id="if-training-details" class="container" style = "height:90%; display: none;" scrolling="yes"> </iframe>
+					  </div>
+					  <div class="tab-pane fade" id="other-training-details" role="tabpanel" aria-labelledby="other-training-details-tab">
+					  <iframe id="if-other-training-details" class="container" style = "height:90%; display: none;" scrolling="yes"> </iframe>
+					  </div>
+					</div>
+				</div>
+			
+	
+		</div>
+		<div>
+	</div>
+</div>
+</div>
+<iframe id="includehtmltest" style = "display: none;height:0%"> 
+</iframe>			
+<div id ="data-form" style = "display: none;height:0%">    </div>        
+       
+        
+<script type = "text/javascript">
+    function onSubmit() {
+        var data = {
+          username: localStorage.getItem('empnumber'),
+          atcol: document.getElementById("text4").value,
+        }
+        fetch('https://vaahlogbook.herokuapp.com/ViewProficiency', {method: 'POST', headers: {
+          "Content-Type": "application/json",
+        }, body: JSON.stringify(data) } )
+        .then(response => response.json())
+  .then(data => renderData(data));
+   console.log(data);
+    }
+
+    function renderData(data) {
+        console.log(data);
+        let table = document.getElementById("data-table");
+        let innerHtml=' <thead><th class = "Name">Name</th><th class = "Rating">Rating</th><th class = "instructor">Name of Instructor</th><th class = "profdate">Proficiency Date</th><th class = "DateTo">Validity</th><th class = "remarks">Remarks</th><th class = "deletebtn">Action</th></thead>';
+        data.forEach(row => {
+            let {emp_name,emp_rating,emp_instructor,emp_profdate,emp_validdate,emp_remarks} = row;
+            emp_profdate = emp_profdate.split('T')[0];
+            emp_validdate = emp_validdate.split('T')[0];
+           innerHtml=innerHtml+  `<tr><td class='Name'>${emp_name}</td><td class='Rating'>${emp_rating}</td><td class='instructor'>${emp_instructor}</td><td class='profdate'>${emp_profdate}</td><td class='DateTo'>${emp_validdate}</td><td class='remarks'>${emp_remarks}</td><td><button class='deletebtn btn btn-danger' onclick="show(this);">Delete</button></td></tr>`;
+        });
+        var tableStyle=document.getElementById("table");
+        document.getElementById("data-form").style.width='75%';
+        tableStyle.style.display='block';
+        tableStyle.style.width='';
+        table.style.display = "block";
+        table.innerHTML= innerHtml;
+        console.log(innerHtml);
+    }
+	
+
+	
+	
+window.onload =  function() {
+    const isLoggedIn = localStorage.getItem('login')
+    if (!isLoggedIn) {
+        alert ("Please log in!");
+        window.location.replace("http://localhost:3000")
+    } else {
+        // Already logged in
+const empname = localStorage.getItem('empname');
+        const empnumber = localStorage.getItem('empnumber')
+        const emptype = localStorage.getItem('emptype')
+        const empatcolno = localStorage.getItem('empatcolno')
+console.log(empname);
+        document.getElementById('text1').value = empname;
+document.getElementById('text4').value = empatcolno;
+iframex('view-med');
+    }
+};
+function show(unit) {
+    clickdata = unit.parentElement.parentElement;
+    //this gives id of tr whose button was clicked
+    // var data =
+    //   document.getElementById(rowId); /*.querySelectorAll(".row-data")*/
+    /*returns array of all elements with 
+    "row-data" class within the row with given id*/
+    if(confirm('Are you sure you want to delete this entry?')){
+    var data = {
+    LogDate: clickdata.getElementsByClassName('profdate')[0].innerText,
+    LogUnit : clickdata.getElementsByClassName('Rating')[0].innerText,
+  } //end data array
+  fetch('https://vaahlogbook.herokuapp.com/DeleteProficiency', {
+      method: 'POST', headers: {
+        "Content-Type": "application/json",
+      }, body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(data => renderData1(data));
+
+    }
+    else
+    {
+
+    }
+
+  }
+</script> 
+ </body>   
+</html>

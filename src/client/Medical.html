@@ -1,0 +1,122 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="../styles/styles.css">
+        <body>
+
+            <div>
+				<form action="AddMedical" method="POST">
+                <fieldset style="margin-top:30px">
+						<legend>Medical Details </legend>
+					<div class="form-group info">
+								<label class="control-label col-md-6">Employee Name									
+								 : </label>                               
+								<div class="col-md-6">
+									 <input id="text1" name="Emp_No" maxlength="100" class="form-control" disabled = "">
+										<a href= "" style="padding: 0 16px;" class="btn btn-lg" data-toggle="modal" data-target="#myModal1">
+									<i class="fa fa-info"></i></a>
+								</div>
+							</div>
+                        <p></p>
+					<div class="col-md-6">
+							<div class="form-group info">
+								<label class="control-label col-md-4">ATCOL Number
+								 : </label>
+                            </div>
+							<div class="col-md-6">
+							<input id="text4" name="ATCOL_No" maxlength="10" class="form-control" disabled="">
+									<a href="" style="padding: 0 16px;" class="btn btn-lg" data-toggle="modal" data-target="#myModal2">
+									<i class="fa fa-info"></i></a> 
+									
+							</div>
+							
+					</div>						
+                    <p></p>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-4">  Date of Assessment : </label>
+                            <span>
+                                             <input class="" size="16" type="date" name="Date_Medical" id="Date_Medical" data-date-format="yyyy-mm-dd" data-date-viewmode="years" type="text" required>
+                </span>
+                                            </div>
+                        
+    
+                </div>
+                <p></p>
+                    <div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-4">  Valid Till : </label>
+								<span>
+												 <input class="" size="16" type="date" name="Date_To" id="Date_To" data-date-format="yyyy-mm-dd" data-date-viewmode="years" type="text" required>
+                    </span>
+                            </div>
+							
+					</div>
+                    <p></p>
+                    <div class="col-md-6">
+                        <div class="form-group info">
+                            <label class="control-label col-md-4">Fitness Status
+                             : </label>
+                        <input id="text4" name="fitness" maxlength="200" class="form-control" required>
+                                <a href="" style="padding: 0 16px;" class="btn btn-lg" data-toggle="modal" data-target="#myModal2">
+                                <i class="fa fa-info"></i></a> 
+                                
+                        </div>
+                        
+                </div>						
+                <p></p>
+					<div class="row" style="margin-bottom: 10px;">
+						
+							<div class="btns-group">
+	
+								<input type="RESET" class="btn blue" onclick="clear_form()" value="Reset">	
+								<input type="submit" class="btn green" value="Submit">
+							
+						 </div>
+					  
+					</div>										
+                                        
+										
+										
+                   </fieldset>
+				</form>
+            </div>
+        </body>
+    </head>
+</html>
+<script type = "text/javascript">
+function myFunction() {
+  // Get the checkbox
+  var checkBox = document.getElementById("datecheck");
+  // Get the output text
+  var datefrom = document.getElementById("Date_From").value;
+var dateto = document.getElementById("Date_To");
+  // If the checkbox is checked, display the output text
+  if (checkBox.checked == true){
+      console.log(datefrom);
+    document.getElementById("Date_To").value = datefrom;
+  } 
+}
+/*
+window.onload = function () {
+            const isLoggedIn = localStorage.getItem('login')
+            if (!isLoggedIn) {
+                alert ("Please log in!");
+                window.location.replace("http://localhost:3000")
+            } else {
+                // Already logged in
+				const empname = localStorage.getItem('empname');
+                const empnumber = localStorage.getItem('empnumber')
+                const emptype = localStorage.getItem('emptype')
+                const empatcolno = localStorage.getItem('empatcolno')
+				// console.log(empname);
+                document.getElementById('text1').value = empname;
+				document.getElementById('text4').value = empatcolno;
+                // // Logout
+                // localStorage.removeItem("login")
+                // localStorage.removeItem("empnumber")
+                // localStorage.removeItem("emptype")
+                // localStorage.removeItem("empname")
+                // localStorage.removeItem("empatcolno")
+            }
+        };*/
+</script>

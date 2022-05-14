@@ -1,0 +1,297 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "WATCHEXEC" "1" "July 2021" "" ""
+.
+.SH "NAME"
+\fBwatchexec\fR \- execute commands when watched files change
+.
+.SH "SYNOPSIS"
+watchexec [\fB\-\-exts\fR | \fB\-e\fR \fIextensions\fR]\.\.\. [\fB\-\-filter\fR | \fB\-f\fR \fIpattern\fR]\.\.\. [\fB\-\-ignore\fR | \fB\-i\fR \fIpattern\fR]\.\.\. [\fB\-\-watch\fR | \fB\-w\fR \fIpath\fR]\.\.\. [\fB\-\-restart\fR | \fB\-r\fR] [\fB\-\-clear\fR | \fB\-c\fR] [\fB\-\-postpone\fR | \fB\-p\fR] [\fB\-\-force\-poll\fR \fIinterval\fR] [\fB\-\-debounce\fR | \fB\-d\fR \fIinterval\fR] [\fB\-\-no\-vcs\-ignore\fR] [\fB\-\-no\-default\-ignore\fR] [\fB\-\-verbose\fR | \fB\-v\fR] [\fB\-\-changes\-only\fR] [\fB\-\-version\fR | \fB\-V\fR] [\-\-] \fIcommand\fR [\fIargument\fR\.\.\.]
+.
+.SH "DESCRIPTION"
+Recursively monitors the current directory for changes, executing the command when a filesystem change is detected\. By default, watchexec uses efficient kernel\-level mechanisms to watch for changes\.
+.
+.P
+At startup, the specified \fIcommand\fR (passing any supplied \fIargument\fRs) is run once, and watchexec begins monitoring for changes\.
+.
+.SH "OPTIONS"
+.
+.TP
+\fIcommand\fR
+Command to run when watched files are modified, and at startup, unless \fB\-\-postpone\fR is specified\. All \fIargument\fRs are passed to \fIcommand\fR\. If you pass flags to the command, you should separate it with \fB\-\-\fR, for example: \fBwatchexec \-w src \-\- rsync \-a src dest\fR\.
+.
+.P
+Behaviour depends on the value of \fB\-\-shell\fR: for all except \fBnone\fR, every part of \fIcommand\fR is joined together into one string with a single ascii space character, and given to the shell as described\. For \fBnone\fR, each distinct element of \fIcommand\fR is passed as per the execvp(3) convention: first argument is the program, as a file or searched in the \fBPATH\fR, rest are arguments\.
+.
+.TP
+\fB\-e\fR, \fB\-\-exts\fR \fIextensions\fR
+Comma\-separated list of file extensions to filter by\. Leading dots (\.rs) are allowed\. (This is a shorthand for \fB\-f\fR)\.
+.
+.TP
+\fB\-f\fR, \fB\-\-filter\fR \fIpattern\fR
+Ignores modifications from paths that do not match \fIpattern\fR\. This option can be specified multiple times, where a match on any given pattern causes the path to trigger \fIcommand\fR\.
+.
+.TP
+\fB\-s\fR, \fB\-\-signal\fR
+Sends the specified signal (e\.g\. \fBSIGKILL\fR) to the command\. Defaults to \fBSIGTERM\fR\.
+.
+.TP
+\fB\-\-shell\fR \fIshell\fR
+Change the shell used to run the command\. Set to \fBnone\fR to run the command directly without a shell\.
+.
+.P
+The special value \fBpowershell\fR will use Microsoft Powershell\'s calling convention, otherwise \fBSHELL \-c COMMAND\fR\.
+.
+.P
+On Windows, the additional \fBcmd\fR special value uses CMD\.EXE calling convention\.
+.
+.P
+The \fBnone\fR value is especially useful in combination with \fB\-\-signal\fR, as the signal is then sent directly to the running command\. While \fB\-\-shell=none\fR is a little more performant than the default, it prevents using shell\-features like pipes and redirects\.
+.
+.P
+If not a special value, the string provided may contain arguments to the shell as long as that is kept simple: the string is split along whitespace, and used as per execvp(3): first is shell program, rest are arguments to the shell, then \fB\-c\fR is added, and finally the \fBCOMMAND\fR\.
+.
+.P
+See the \fIEXAMPLES\fR for uses of each of these\.
+.
+.TP
+\fB\-\-no\-shell\fR
+Deprecated\. Alias for \fB\-\-shell=none\fR\.
+.
+.TP
+\fB\-n\fR
+Shorthand for \fB\-\-shell=none\fR\.
+.
+.TP
+\fB\-\-no\-meta\fR
+Ignore metadata changes\.
+.
+.TP
+\fB\-\-no\-environment\fR
+Do not set WATCHEXEC\fI*\fRPATH environment variables for the command\.
+.
+.TP
+\fB\-i\fR, \fB\-\-ignore\fR \fIpattern\fR
+Ignores modifications from paths that match \fIpattern\fR\. This option can be specified multiple times, and a match on any pattern causes the path to be ignored\.
+.
+.TP
+\fB\-w\fR, \fB\-\-watch\fR \fIpath\fR
+Monitor a specific path for changes\. By default, the current working directory is watched\. This may be specified multiple times, where a change in any watched directory (and subdirectories) causes \fIcommand\fR to be executed\.
+.
+.TP
+\fB\-r\fR, \fB\-\-restart\fR
+Terminates the command if it is still running when subsequent file modifications are detected\. By default, sends \fBSIGTERM\fR; use \fB\-\-signal\fR to change that\.
+.
+.TP
+\fB\-W\fR, \fB\-\-watch\-when\-idle\fR
+Ignore events while the process is still running\. This is distinct from \fB\-\-restart\fR in that with this option, events received while the command is running will not trigger a new run immediately after the current command is done\.
+.
+.P
+This behaviour will become the default in v2\.0\.
+.
+.TP
+\fB\-\-no\-process\-group\fR
+Do not use a process group when running \fIcommand\fR\.
+.
+.TP
+\fB\-c\fR, \fB\-\-clear\fR
+Clears the screen before executing \fIcommand\fR\.
+.
+.TP
+\fB\-p\fR, \fB\-\-postpone\fR
+Postpone execution of \fIcommand\fR until the first file modification is detected\.
+.
+.TP
+\fB\-\-force\-poll\fR \fIinterval\fR
+Poll for changes every \fIinterval\fR ms instead of using system\-specific notification mechanisms (such as inotify)\. This is useful when you are monitoring NFS shares\.
+.
+.TP
+\fB\-d\fR, \fB\-\-debounce\fR
+Set the timeout between detected change and command execution, to avoid restarting too frequently when there are many events; defaults to 100ms\.
+.
+.TP
+\fB\-\-no\-vcs\-ignore\fR
+Skip loading of version control system (VCS) ignore files\. By default, watchexec loads \.gitignore files in the current directory (or parent directories) and uses them to populate the ignore list\.
+.
+.TP
+\fB\-\-no\-default\-ignore\fR
+Skip default ignore statements\. By default, watchexec ignores common temporary files for you, for example \fB*\.swp\fR, \fB*\.pyc\fR, and \fB\.DS_Store\fR\.
+.
+.TP
+\fB\-v\fR, \fB\-\-verbose\fR
+Prints diagnostic messages to STDERR\.
+.
+.TP
+\fB\-\-changes\-only\fR
+Prints the paths that have changed as diagnostics to STDERR, but not everything else that \fB\-\-verbose\fR prints\.
+.
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+Print the version of watchexec\.
+.
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print a help message\.
+.
+.SH "ENVIRONMENT"
+Processes started by watchexec have environment variables set describing the modification(s) observed\. Which variable is set depends on how many modifications were observed and/or what type they were\.
+.
+.P
+If a single file changed (depending on the event type):
+.
+.IP "\(bu" 4
+\fB$WATCHEXEC_CREATED_PATH\fR, the path of the file that was created
+.
+.IP "\(bu" 4
+\fB$WATCHEXEC_REMOVED_PATH\fR, the path of the file that was removed
+.
+.IP "\(bu" 4
+\fB$WATCHEXEC_RENAMED_PATH\fR, the path of the file that was renamed
+.
+.IP "\(bu" 4
+\fB$WATCHEXEC_WRITTEN_PATH\fR, the path of the file that was modified
+.
+.IP "\(bu" 4
+\fB$WATCHEXEC_META_CHANGED_PATH\fR, the path of the file whose metadata changed
+.
+.IP "" 0
+.
+.P
+If multiple files changed:
+.
+.IP "\(bu" 4
+\fB$WATCHEXEC_COMMON_PATH\fR, the longest common path of all of the files that triggered a change
+.
+.IP "" 0
+.
+.SH "EXAMPLES"
+Rebuild a project when source files change:
+.
+.IP "" 4
+.
+.nf
+
+$ watchexec make
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Watch all HTML, CSS, and JavaScript files for changes:
+.
+.IP "" 4
+.
+.nf
+
+$ watchexec \-e html,css,js make
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Run tests when source files change, clearing the screen each time:
+.
+.IP "" 4
+.
+.nf
+
+$ watchexec \-c make test
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Launch and restart a node\.js server:
+.
+.IP "" 4
+.
+.nf
+
+$ watchexec \-r node app\.js
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Watch lib and src directories for changes, rebuilding each time:
+.
+.IP "" 4
+.
+.nf
+
+$ watchexec \-w lib \-w src make
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Use without shell:
+.
+.IP "" 4
+.
+.nf
+
+$ watchexec \-n \-\- zsh \-x \-o shwordsplit scr
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Use with powershell (default on windows from 2\.0):
+.
+.IP "" 4
+.
+.nf
+
+$ watchexec \-\-shell=powershell \-\- test\-connection localhost
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Use with cmd (default on windows until 2\.0):
+.
+.IP "" 4
+.
+.nf
+
+$ watchexec \-\-shell=cmd \-\- dir
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Use with a different unix shell:
+.
+.IP "" 4
+.
+.nf
+
+$ watchexec \-\-shell=bash \-\- \'echo $BASH_VERSION\'
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Use with a unix shell and options:
+.
+.IP "" 4
+.
+.nf
+
+$ watchexec \-\-shell=\'zsh \-x \-o shwordsplit\' \-\- scr
+.
+.fi
+.
+.IP "" 0
+

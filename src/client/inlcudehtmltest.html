@@ -1,0 +1,200 @@
+<html>
+
+<head>
+	<link rel="stylesheet" href="../styles/styles.css">
+
+<body>
+
+	<div>
+		<form action="auth5" method="POST">
+			<fieldset style="margin-top:10px;">
+				<legend style="text-align: center;">LogBook</legend>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group info">
+							<span> <label class="control-label col-md-6">Employee Name
+
+									: </label>
+							</span>
+							<span></span>
+							<span>
+								<label class="control-label col-md-4">ATCOL Number
+									: </label>
+							</span>
+							<div class="col-md-6">
+								<input id="text1" name="Emp_Name" maxlength="100" class="form-control" disabled="">
+								<a href="" style="padding: 0 16px;" class="btn btn-lg" data-toggle="modal"
+									data-target="#myModal1">
+									<i class="fa fa-info"></i></a>
+							</div>
+						</div>
+					</div>
+					<p></p>
+					<div class="col-md-6">
+						<div class="form-group info">
+
+
+							<div class="col-md-6">
+								<input id="text4" name="ATCOL_No" maxlength="10" class="form-control" disabled="">
+								<a href="" style="padding: 0 16px;" class="btn btn-lg" data-toggle="modal"
+									data-target="#myModal2">
+									<i class="fa fa-info"></i></a>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<p></p>
+				<div class="row" style="margin-top:10px">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-6"><span class="required">*</span> Date From : </label>
+							<span>
+								<input class="" size="16" type="date" name="Date_From" id="Date_From"
+									data-date-format="yyyy-mm-dd" data-date-viewmode="years" type="text">
+
+							</span>
+						</div>
+					</div>
+					<div>
+
+					</div>
+					<p></p>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4"><span class="required">*</span> Date To : </label>
+							<span>
+								<input class="" size="16" type="date" name="Date_To" id="Date_To"
+									data-date-format="yyyy-mm-dd" data-date-viewmode="years" type="text">
+								<input type="checkbox" id="datecheck" name="datecheck" onclick="myFunction()">
+
+								<label> Same as Date From</label>
+							</span>
+						</div>
+
+					</div>
+				</div>
+				<p></p>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label col-md-4">Station
+							: </label>
+
+						<div class="col-md-6">
+							<select id="select1" name="Emp_Station" class="form-control" disabled="">
+								<option value="VAAH" selected="">VAAH</option>
+							</select>
+
+						</div>
+					</div>
+				</div>
+				<p></p>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label col-md-4">Unit Rating
+							: </label>
+
+						<div class="col-md-6">
+							<select id="select1" name="Emp_Rating" class="form-control">
+								<option value="" selected="">[Select One]</option>
+								<option value="ADC">ADC</option>
+								<option value="ACCP">ACC(P)</option>
+								<option value="ACCS">ACC(S)</option>
+								<option value="ASR">ASR</option>
+							</select>
+
+						</div>
+					</div>
+				</div>
+				<p></p>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-6">From Time
+
+								: </label>
+							<div class="col-md-6">
+								<div class="input-icon">
+									<i class="fa fa-clock-o"></i>
+									<input type="text" class="form-control" style="width : 10%" type="time"
+										maxlength="2" name="Time_From_Hour" placeholder="HH">
+									<label> : </label>
+									<input type="text" class="form-control" style="width : 10%" type="time"
+										maxlength="2" name="Time_From_Min" placeholder="MM">
+								</div>
+							</div>
+						</div>
+					</div>
+					<p></p>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-4">To Time
+								: </label>
+							<div class="col-md-6">
+								<div class="input-icon">
+									<i class="fa fa-clock-o"></i>
+									<input type="text" class="form-control" style="width : 10%" type="time"
+										maxlength="2" name="Time_To_Hour" placeholder="HH">
+									<label> : </label>
+									<input type="text" class="form-control" style="width : 10%" type="time"
+										maxlength="2" name="Time_To_Min" placeholder="MM">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<p></p>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label col-md-6">Remarks
+
+								: </label>
+
+							<div class="col-md-6">
+								<input id="text1" name="Emp_Remarks" maxlength="100" class="form-control">
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<p></p>
+				<div class="row" style="margin-bottom: 10px;">
+					<div class="col-md-12">
+						<div class="btns-group">
+
+							<input type="RESET" class="btn blue" onclick="clear_form()" value="Reset">
+							<input type="submit" class="btn green" value="Submit">
+
+						</div>
+					</div>
+				</div>
+
+
+
+			</fieldset>
+		</form>
+	</div>
+</body>
+</head>
+
+</html>
+<script type="text/javascript">
+	function myFunction() {
+		// Get the checkbox
+		var checkBox = document.getElementById("datecheck");
+		// Get the output text
+		var datefrom = document.getElementById("Date_From").value;
+		var dateto = document.getElementById("Date_To");
+		// If the checkbox is checked, display the output text
+		if (checkBox.checked == true) {
+			console.log(datefrom);
+			document.getElementById("Date_To").value = datefrom;
+		}
+	}
+
+</script>

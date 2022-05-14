@@ -1,0 +1,149 @@
+<html>
+    <head>
+		<link rel="stylesheet" href="../styles/styles.css">
+        <body>
+
+            <div>
+				  
+				<form action="AddOtherTraining" method="POST">
+                <fieldset style="margin-top:10px;">
+					<legend style = "text-align: center;">LogBook</legend>
+                    <div class="form-group info">
+								<label class="control-label col-md-6">Employee Name									
+								 : </label>                               
+									 <input id="text1" name="Emp_No" maxlength="100" class="form-control" disabled = "">
+										<a href= "" style="padding: 0 16px;" class="btn btn-lg" data-toggle="modal" data-target="#myModal1">
+									<i class="fa fa-info"></i></a>
+
+							</div>
+                        <p></p>
+                    <div class="row">
+						<div class="col-md-6">
+						
+								<label class="control-label col-md-4">ATCOL Number
+								 : </label>
+                            
+							
+								<input type = "text" id="text4" name="ATCOL_No" maxlength="10" class="form-control" disabled="">
+									<a href="" style="padding: 0 16px;" class="btn btn-lg" data-toggle="modal" data-target="#myModal2">
+									<i class="fa fa-info"></i></a> 
+						</div>
+					</div>
+                    <p></p>
+                    <div class="col-md-6">
+                            <label class="control-label col-md-4">Name Of Training Centre
+                             : </label>
+                            <input id="select1" name="Emp_Location" class="form-control" maxlength="100" required>
+                    </div>
+                    <p></p>
+                    <div class="col-md-6">
+                        <label class="control-label col-md-4">Name Of Course
+                         : </label>
+                        <input id="select1" name="Emp_Course" class="form-control" maxlength="100" required>
+                </div>
+		
+                    <p></p>
+					<div class="row" style="margin-top:10px">						
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-6">Date From : </label>
+								<span>
+												 <input class="" size="16" type = "date" name="Date_From" id="Date_From" data-date-format="yyyy-mm-dd" data-date-viewmode="years" type="text" required>
+								
+							</span>
+							</div>
+						</div>
+                        <div>
+
+                        </div>
+                        <p></p>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="control-label col-md-4">Date To : </label>
+								<span>
+												 <input class="" size="16" type="date" name="Date_To" id="Date_To" data-date-format="yyyy-mm-dd" data-date-viewmode="years" type="text" required>
+                                                 
+                    </span>
+                                                </div>
+							
+						</div>
+					</div>
+                   
+		<p></p>
+					<div class="row">
+								<label class="control-label col-md-6">Results
+									
+								 : </label>
+									 <input id="text1" name="Emp_Results" maxlength="100" class="form-control">
+					</div>
+					
+					
+					<p></p>
+					<div class="row" style="margin-bottom: 10px;">
+						<div class="col-md-12">
+							<div class="btns-group">
+	
+								<input type="RESET" class="btn blue" onclick="clear_form()" value="Reset">	
+								<input type="submit" class="btn green" value="Submit">
+							
+						 </div>
+					   </div>
+					</div>										
+				</div>              
+										
+										
+                   </fieldset>
+				</form>
+            </div>
+        </body>
+    </head>
+</html> 
+<script type = "text/javascript">
+function myFunction() {
+  // Get the checkbox
+  var checkBox = document.getElementById("datecheck");
+  // Get the output text
+  var datefrom = document.getElementById("Date_From").value;
+var dateto = document.getElementById("Date_To");
+  // If the checkbox is checked, display the output text
+  if (checkBox.checked == true){
+      console.log(datefrom);
+    document.getElementById("Date_To").value = datefrom;
+  } 
+}
+function myFunction1() {
+  // Get the checkbox
+  //var checkBox = document.getElementById("datecheck");
+  // Get the output text
+  var datefrom = document.getElementById("Date_From").value;
+var dateto = document.getElementById("Date_To");
+  // If the checkbox is checked, display the output text
+  //if (checkBox.checked == true){
+      console.log(datefrom);
+    document.getElementById("Date_To").value = datefrom;
+  //} 
+}
+/*
+window.onload = function () {
+            const isLoggedIn = localStorage.getItem('login')
+            if (!isLoggedIn) {
+                alert ("Please log in!");
+                window.location.replace("http://localhost:3000")
+            } else {
+                // Already logged in
+				const empname = localStorage.getItem('empname');
+                const empnumber = localStorage.getItem('empnumber')
+                const emptype = localStorage.getItem('emptype')
+                const empatcolno = localStorage.getItem('empatcolno')
+				console.log(empname);
+                document.getElementById('text1').value = empname;
+				document.getElementById('text4').value = empatcolno;
+                // Logout
+                // localStorage.removeItem("login")
+                // localStorage.removeItem("empnumber")
+                // localStorage.removeItem("emptype")
+                // localStorage.removeItem("empname")
+                // localStorage.removeItem("empatcolno")
+            }
+        };*/
+</script>

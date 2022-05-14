@@ -1,0 +1,16 @@
+<html>
+    <head>
+        Login 
+        <script type="text/javascript">
+            function onBtnClick() {
+               fetch("https://vaahlogbook.herokuapp.com/getUser")
+               .then(response => response.json())
+               .then(response => console.log(response));
+            }
+        </script>
+    </head>
+    <body>
+        Login Page
+        <button onclick="onBtnClick()">Click Me</button>
+    </body>
+</html>
